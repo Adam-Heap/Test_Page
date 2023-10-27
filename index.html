@@ -48,7 +48,8 @@
   <link rel="stylesheet" href="assets/css/ud-styles.css" />
 
   <!-- ===== Heap JS Snippet ===== -->
-  <script heap.load('1959154688', {
+  <script type="text/javascript">
+      heap.load('1959154688', {
         rewrite: function (props) {
           if (props.pageview_properties.hash && props.pageview_properties.hash.includes('auth')) {
             props.pageview_properties.hash = '[removed in rewrite - contains token]';
