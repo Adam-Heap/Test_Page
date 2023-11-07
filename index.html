@@ -53,7 +53,6 @@
     heap.load("3096163752");
 
     const transformerName = "redactUrlQueryFromAllEventsTransformer"
-
 const transformerFn = messages => {
   const redactUrlQuery = message => {
     try {
@@ -86,11 +85,6 @@ const transformerFn = messages => {
 const pipeline = "metadata"
 
 heap.addTransformerFn(transformerName, transformerFn, "metadata")
- 
-// Using metadata pipeline since we are modifying user, session, and pageview messages
-const pipeline = 'metadata'; 
-
-heap.addTransformerFn(transformerName, transformerFn, 'metadata');
 </script>
 	
   <!-- ===== Delighted JS Snippet ===== -->
