@@ -81,7 +81,9 @@
 		  return messages.map(redactUrlQuery);
 		};
 		  
-		heap.addTransformerFn(transformerName, transformerFn, pipeline); 
+		heap.addTransformerFn(transformerName, transformerFn, pipeline);
+
+		console.log("Transformer ran");
 	  }
 		
 	  heap.onReady(executeOnReady);
