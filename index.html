@@ -51,38 +51,42 @@
   </script>
 
   <script type="text/javascript">
-	var transformerName = 'redactUrlQueryFromAllEventsTransformer';
-	var transformerFn = function(messages) {
-	var redactUrlQuery = function(message) {
-	    try {
-	      // Event is a pageview event
-	      if (message.type === 'meta_pageview') {
-	        message.data.pageview_info.url.query = '****';
-	      }
-	
-	      // Event is a session event
-	      if (message.type === 'meta_session') {
-	        message.data.initial_pageview_info.url.query = '****';
-	      }
-	
-	      // Event is a user event
-	      if (message.type === 'meta_user') {
-	        message.data.initial_session_info.initial_pageview_info.url.query = '****';
-	      }
-	
-	      return message;
-	    } catch (e) {
-	      return message;
-	    }
-	  };
-	
-	  return messages.map(redactUrlQuery);
-	};
-	
-	// Using metadata pipeline since we are modifying user, session, and pageview messages
-	var pipeline = 'metadata';
-	
-	heap.addTransformerFn(transformerName, transformerFn, pipeline);
+	  function executeOnReady() {
+		var transformerName = 'redactUrlQueryFromAllEventsTransformer';
+		var transformerFn = function(messages) {
+		var redactUrlQuery = function(message) {
+		    try {
+		      // Event is a pageview event
+		      if (message.type === 'meta_pageview') {
+		        message.data.pageview_info.url.query = '****';
+		      }
+		
+		      // Event is a session event
+		      if (message.type === 'meta_session') {
+		        message.data.initial_pageview_info.url.query = '****';
+		      }
+		
+		      // Event is a user event
+		      if (message.type === 'meta_user') {
+		        message.data.initial_session_info.initial_pageview_info.url.query = '****';
+		      }
+		
+		      return message;
+		    } catch (e) {
+		      return message;
+		    }
+		  };
+		
+		  return messages.map(redactUrlQuery);
+		};
+		
+		// Using metadata pipeline since we are modifying user, session, and pageview messages
+		var pipeline = 'metadata';
+		
+		heap.addTransformerFn(transformerName, transformerFn, pipeline); 
+	  }
+		
+	  heap.onReady(executeOnReady);
   </script>
 	
   <!-- ===== Delighted JS Snippet ===== -->
