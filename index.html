@@ -61,13 +61,13 @@
 		
 		      // Event is a session event
 		      if (message.type === 'meta_session') {
-		        message.data.initial_pageview_info.url.query = '****';
-		      }
+        		message.data.session_info.initial_pageview_info.url.query = '****';
+      		  }
 		
 		      // Event is a user event
 		      if (message.type === 'meta_user') {
-		        message.data.initial_session_info.initial_pageview_info.url.query = '****';
-		      }
+        		message.data.user.initial_session_info.initial_pageview_info.url.query = '****';
+      		  }
 		
 		      return message;
 		    } catch (e) {
