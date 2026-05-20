@@ -53,8 +53,9 @@
   <script type="text/javascript">
 	  function executeOnReady() {
 		var transformerName = 'redactUrlQueryFromAllEventsTransformer';
+		var pipeline = 'metadata';
 		var transformerFn = function(messages) {
-		var redactUrlQuery = function(message) {
+		  var redactUrlQuery = function(message) {
 		    try {
 		      // Event is a pageview event
 		      if (message.type === 'meta_pageview') {
@@ -79,10 +80,7 @@
 		
 		  return messages.map(redactUrlQuery);
 		};
-		
-		// Using metadata pipeline since we are modifying user, session, and pageview messages
-		var pipeline = 'metadata';
-		
+		  
 		heap.addTransformerFn(transformerName, transformerFn, pipeline); 
 	  }
 		
