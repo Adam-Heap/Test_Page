@@ -51,7 +51,6 @@
   </script>
 
   <script type="text/javascript">
-	  function executeOnReady() {
 		var transformerName = 'redactUrlQueryFromAllEventsTransformer';
 		var pipeline = 'metadata';
 		var transformerFn = function(messages) {
@@ -82,11 +81,6 @@
 		};
 		  
 		heap.addTransformerFn(transformerName, transformerFn, pipeline);
-
-		console.log("Transformer ran");
-	  }
-		
-	  heap.onReady(executeOnReady);
   </script>
 	
   <!-- ===== Delighted JS Snippet ===== -->
