@@ -49,12 +49,10 @@
   		window.heapReadyCb=window.heapReadyCb||[],window.heap=window.heap||[],heap.load=function(e,t){window.heap.envId=e,window.heap.clientConfig=t=t||{},window.heap.clientConfig.shouldFetchServerConfig=!1;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src="https://cdn.us.heap-api.com/config/"+e+"/heap_config.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(a,r);var n=["init","startTracking","stopTracking","track","resetIdentity","identify","identifyHashed","getSessionId","getUserId","getIdentity","addUserProperties","addEventProperties","removeEventProperty","clearEventProperties","addAccountProperties","addAdapter","addTransformer","addTransformerFn","onReady","addPageviewProperties","removePageviewProperty","clearPageviewProperties","trackPageview"],i=function(e){return function(){var t=Array.prototype.slice.call(arguments,0);window.heapReadyCb.push({name:e,fn:function(){heap[e]&&heap[e].apply(heap,t)}})}};for(var p=0;p<n.length;p++)heap[n[p]]=i(n[p])};
   		heap.load("3096163752");
 
-// This will replace redacted content
 var REDACTION_STRING = '****';
 
 var redactUrlQueryFromInteractionEvents = function(message) {
   try {
-    // Event is an interaction event
     if (message.type === 'core_track') {
       message.data.pageview_info.url.query = REDACTION_STRING;
       message.data.session_info.initial_pageview_info.url.query = REDACTION_STRING;
@@ -65,26 +63,23 @@ var redactUrlQueryFromInteractionEvents = function(message) {
   return message;
 };
 
-// Using general pipeline since we are modifying interaction events
-heap.addTransformerFn('redactUrlQueryFromInteractionEventsTransformer', function(messages) {
+var redactUrlQueryFromInteractionEventsFn = function(messages) {
   return messages.map(redactUrlQueryFromInteractionEvents);
-}, 'general');
+};
+
+// Using general pipeline since we are modifying interaction events
+heap.addTransformerFn('redactUrlQueryFromInteractionEventsTransformer', redactUrlQueryFromInteractionEventsFn, 'general');
 
 
 var redactUrlQueryFromMetadata = function(message) {
   try {
-    // Event is a pageview event
     if (message.type === 'meta_pageview') {
       message.data.pageview_info.url.query = REDACTION_STRING;
       message.data.session_info.initial_pageview_info.url.query = REDACTION_STRING;
     }
-
-    // Event is a session event
     if (message.type === 'meta_session') {
       message.data.session_info.initial_pageview_info.url.query = REDACTION_STRING;
     }
-
-    // Event is a user event
     if (message.type === 'meta_user') {
       message.data.user.initial_session_info.initial_pageview_info.url.query = REDACTION_STRING;
     }
@@ -94,10 +89,12 @@ var redactUrlQueryFromMetadata = function(message) {
   return message;
 };
 
-// Using metadata pipeline since we are modifying user, session, and pageview messages
-heap.addTransformerFn('redactUrlQueryFromMetadataTransformer', function(messages) {
+var redactUrlQueryFromMetadataFn = function(messages) {
   return messages.map(redactUrlQueryFromMetadata);
-}, 'metadata');
+};
+
+// Using metadata pipeline since we are modifying user, session, and pageview messages
+heap.addTransformerFn('redactUrlQueryFromMetadataTransformer', redactUrlQueryFromMetadataFn, 'metadata');
   </script>
 	
   <!-- ===== Delighted JS Snippet ===== -->
