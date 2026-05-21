@@ -53,14 +53,14 @@ var transformerName = 'redactUrlQueryFromAllEventsTransformer';
 var transformerFn = function(messages) {
   var redactUrlQuery = function(message) {
     try {
-      // Event is a pageview event
-      if (message.type === 'meta_pageview') {
+      // Event is a click event
+      if (message.type === 'core_track') {
         message.data.pageview_info.url.query = '****';
         message.data.session_info.initial_pageview_info.url.query = '****';
       }
 
-      // Event is an event event
-      if (message.type === 'meta_event') {
+      // Event is a pageview event
+      if (message.type === 'meta_pageview') {
         message.data.pageview_info.url.query = '****';
         message.data.session_info.initial_pageview_info.url.query = '****';
       }
